@@ -121,7 +121,7 @@ get_cmd:				; Main processing loop
 
 	mov di, receive_string		; 'RECEIVE' entered?
 	call os_string_compare
-	jc receive_mode
+	jc ready_receive
 
 	; If the user hasn't entered any of the above commands, then we
 	; need to check for an executable file -- .BIN or .BAS, and the
@@ -255,7 +255,19 @@ no_kernel_allowed:
 
 ; ------------------------------------------------------------------
 send_data:
-	mov si, [param_list]
+	mov si, [param_list]			; this all just mean that if
+	mov di, [text]				; you use the parameter '-f',
+	call os_string_copy			; then a file is sent, rather
+	mov si, [param_list]			; than a string
+	pusha
+	call os_string_parse
+	mov si, bx
+	mov di, file_param
+	call os_string_compare
+	jc send_file
+	popa
+	mov si, [text]
+	jmp .loop
 .loop:						;loop through characters
 	lodsb
 	cmp al, 0x00
@@ -272,8 +284,21 @@ send_data:
 	mov al, 13
 	call os_send_via_serial
 	jmp get_cmd
-receive_mode:
-	mov bx, 0x00
+ready_receive:
+	mov si, [param_list]
+	mov ax, si
+	call os_file_exists
+	jc .not_found
+	call os_remove_file
+	jmp receive_mode
+
+.not_found:
+	mov si, notfound_msg
+	call os_print_string
+	call os_print_newline
+	jmp get_cmd
+receive_mode:					; receive data until a key is
+	mov bx, .datatrans			; pressed
 	mov si, .getting_data
 	call os_print_string
 	jmp .continue
@@ -291,18 +316,62 @@ receive_mode:
 	mov si, char
 	call os_print_string
 
+	mov [bx], al
 	inc bx
 
 	jmp .continue
 
 .end:
+	sub bx, .datatrans
+	mov si, [param_list]
+	mov ax, si
+	mov cx, bx
+	mov bx, .datatrans 
+	call os_write_file 
 	call os_print_newline
-	jmp get_cmd
+	jmp clear_screen
 
 .getting_data:
 	db " @ ",0x00
 
+.datatrans times 4192 db 0
+
+send_file:
+	mov cx, 36960
+	call os_load_file
+	jc .not_found
+	jmp .ready
+.not_found:
+	popa
+	mov si, notfound_msg
+	call os_print_string
+	call os_print_newline
+	jmp get_cmd
+.ready:
+	popa
+	mov si, 36960
+	jmp .loop
+.loop:
+	mov ax, [si]
+	cmp al, 0x00
+	je .end
+	call os_send_via_serial
+	inc si
+	cmp ah, 128
+	jnz .loop
+	mov si, writefail_msg
+	call os_print_string
+	call os_print_newline
+	je .end
+.end:
+	mov al, 10
+	call os_send_via_serial
+	mov al, 13
+	call os_send_via_serial
+	jmp get_cmd
+
 char times 1 db 0
+text times 512 db 0
 ; ------------------------------------------------------------------
 dump_registers:
 	call os_dump_registers
@@ -1053,10 +1122,12 @@ exit:
 	file_size		dw 0
 	param_list		dw 0
 
+	file_param		db '-f', 0x00
+
 	bin_extension		db '.BIN', 0
 	bas_extension		db '.BAS', 0
 	pcx_extension		db '.PCX', 0
-
+	
 	prompt			db '> ', 0
 
 	help_text		db 'Commands:DIR, LIST, COPY, REN, DEL, READ, SIZE, CLS, HELP, TIME, DATE, VER, REBOOT, NEW, DUMP, SEND, RECEIVE', 13, 10, 0
