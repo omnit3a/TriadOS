@@ -1,7 +1,7 @@
 #ifndef PRINT_H_
 #define PRINT_H_
 
-#include "memory.h"
+#include "memory.hpp"
 
 #define SCREEN_WIDTH 80
 #define SCREEN_HEIGHT 25

@@ -1,6 +1,6 @@
-#include "messages.h"
-#include "print.h"
-#include "bootup.h"
+#include "messages.hpp"
+#include "print.hpp"
+#include "bootup.hpp"
 
 extern "C" void verifyLoad(){
   #ifdef MEMORY_H_

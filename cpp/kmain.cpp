@@ -1,8 +1,7 @@
-#include "memory.h"
-#include "print.h"
-#include "messages.h"
-#include "bootup.h"
-#include "kbd.h"
+#include "memory.hpp"
+#include "print.hpp"
+#include "messages.hpp"
+#include "bootup.hpp"
 
 extern "C" void kmain(){
   inith();

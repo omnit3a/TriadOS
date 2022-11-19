@@ -1,4 +1,4 @@
-#include "memory.h"
+#include "memory.hpp"
 
 t_ush * SCREEN_SPACE = (t_ush *)SCREEN_RAM;
 

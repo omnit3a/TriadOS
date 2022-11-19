@@ -1,5 +1,5 @@
-#include "print.h"
-#include "memory.h"
+#include "print.hpp"
+#include "memory.hpp"
 
 t_ush SCREEN_COLORS = DEFAULT_COLORS;
 
