@@ -2,6 +2,7 @@
 #include "print.h"
 #include "messages.h"
 #include "bootup.h"
+#include "kbd.h"
 
 extern "C" void kmain(){
   inith();
