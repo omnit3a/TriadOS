@@ -32,19 +32,19 @@ extern "C" void placeString(t_uch x, t_uch y, String string){
 }
 
 //yes this literally a copy and paste from itoa()'s gcc implementation
-extern "C" void placeHex(t_uch x, t_uch y, t_uin value) {
-    int size = 0;
-    int t = value;
+extern "C" void placeDecimal(t_uch x, t_uch y, t_uin value) {
+    t_in size = 0;
+    t_in t = value;
 
     while(t / 10 != 0) {
         t = t/10;
         size++;
     }
-    static char ret[64];
+    static t_ch ret[64];
     size++;
     ret[size] = '\0';
     t = value;
-    int i = size - 1;
+    t_in i = size - 1;
     while(i >= 0) {
         ret[i] = (t % 10) + '0';
         t = t/10;

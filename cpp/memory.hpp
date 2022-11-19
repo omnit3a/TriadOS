@@ -12,6 +12,8 @@ typedef char t_ch;
 typedef short t_sh;
 typedef short t_in;
 
+extern t_ush freeSpace;
+
 //boolean types
 enum t_valid {
   TRUE = 1,
@@ -38,5 +40,7 @@ extern "C" void * alloch();
 
 //free a space on the heap
 extern "C" void freeh(void * block);
+
+extern "C" t_ush freehSpace();
 
 #endif

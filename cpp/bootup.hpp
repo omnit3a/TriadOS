@@ -1,6 +1,10 @@
 #ifndef BOOTUP_H_
 #define BOOTUP_H_
 
-extern "C" void verifyLoad();
+#include "memory.hpp"
+
+extern "C" void hang();
+
+extern "C" t_valid verifyLoad();
 
 #endif

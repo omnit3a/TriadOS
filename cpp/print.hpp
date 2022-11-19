@@ -24,6 +24,6 @@ extern "C" void placeScreenByte(t_uch x, t_uch y, t_uch byte);
 
 extern "C" void placeString(t_uch x, t_uch y, String string);
 
-extern "C" void placeHex(t_uch x, t_uch y, t_uin value);
+extern "C" void placeDecimal(t_uch x, t_uch y, t_uin value);
 
 #endif
