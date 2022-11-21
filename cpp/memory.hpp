@@ -1,6 +1,8 @@
 #ifndef MEMORY_H_
 #define MEMORY_H_
 
+#define TIMER_OUTPUT_RAM 0x90000
+#define KBD_OUTPUT_RAM 0x90004
 #define HEAP_RAM 0x80000
 #define SCREEN_RAM 0xb8000
 #define HEAP_SIZE 4096
@@ -28,6 +30,10 @@ struct t_hblock {
 
 extern t_valid HEAP_FREE[HEAP_SIZE];
 extern t_uin * HEAP_SPACE;
+
+extern t_uin * TIMER_OUTPUT;
+
+extern t_uin * KBD_OUTPUT;
 
 //vga screen memory
 extern t_ush * SCREEN_SPACE;

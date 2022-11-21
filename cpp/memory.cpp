@@ -1,4 +1,5 @@
 #include "memory.hpp"
+#include "print.hpp"
 
 t_ush freeSpace;
 
@@ -6,6 +7,10 @@ t_ush * SCREEN_SPACE = (t_ush *)SCREEN_RAM;
 
 t_valid HEAP_FREE[HEAP_SIZE];
 t_uin * HEAP_SPACE = (t_uin *)HEAP_RAM;
+
+t_uin * TIMER_OUTPUT = (t_uin *)TIMER_OUTPUT_RAM;
+
+t_uin * KBD_OUTPUT = (t_uin *)KBD_OUTPUT_RAM;
 
 extern "C" void inith(){
   for (t_ush i = 0 ; i < HEAP_SIZE ; i++){

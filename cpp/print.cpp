@@ -1,5 +1,6 @@
 #include "print.hpp"
 #include "memory.hpp"
+#include "kbd.hpp"
 
 t_ush SCREEN_COLORS = DEFAULT_COLORS;
 
@@ -52,4 +53,16 @@ extern "C" void placeDecimal(t_uch x, t_uch y, t_uin value) {
     }
 
     placeString(x,y,ret);
+}
+
+extern "C" void placeCursor(t_uch x, t_uch y){
+  kbdCursorX = x;
+  kbdCursorY = y;
+  setAttrColor(DEFAULT_COLORS);
+  placeScreenByte(x,y,'<');
+  setAttrColor(DEFAULT_COLORS);
+}
+
+extern "C" t_uch getScreenByteAt(t_uch x, t_uch y){
+  return SCREEN_SPACE[x+(y*80)];
 }

@@ -26,4 +26,8 @@ extern "C" void placeString(t_uch x, t_uch y, String string);
 
 extern "C" void placeDecimal(t_uch x, t_uch y, t_uin value);
 
+extern "C" void placeCursor(t_uch x, t_uch y);
+
+extern "C" t_uch getScreenByteAt(t_uch x, t_uch y);
+
 #endif

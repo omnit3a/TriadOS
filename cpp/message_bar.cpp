@@ -1,8 +1,10 @@
 #include "message_bar.hpp"
 #include "memory.hpp"
 #include "print.hpp"
+#include "kbd.hpp"
 
 t_ush heapTest = 0;
+t_uch kbdCode = 0;
 
 //the message bar is always visible
 //it displays the current heap space in t_uin

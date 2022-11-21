@@ -37,6 +37,6 @@ extern "C" t_valid verifyLoad(){
     return FALSE;
   #endif
 
-  placeString(0,3,KERNEL_REACHED);
+  placeString(0,4,KERNEL_REACHED);
   return TRUE;
 }
