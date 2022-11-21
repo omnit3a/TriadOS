@@ -4,6 +4,7 @@
 #include "bootup.hpp"
 #include "message_bar.hpp"
 #include "kbd.hpp"
+#include "shell.hpp"
 
 extern "C" void kmain(){
   //verify that all files have been compiled correctly
@@ -18,9 +19,8 @@ extern "C" void kmain(){
   //initialize heap
   inith();
 
-  t_uch xTempCursor = kbdCursorX;
-  t_uch yTempCursor = kbdCursorY;
   //main loop
+  placeCursor(kbdCursorX,kbdCursorY);
   while(TRUE){
     takeKeypress(getKeycode());
     displayMessageBar();

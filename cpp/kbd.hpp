@@ -10,6 +10,10 @@ extern t_uch kbdus[128];
 
 extern "C" t_uch getKeycode();
 
+extern "C" void clearCursor();
+
+extern "C" void resetCursor();
+
 extern "C" void takeKeypress(t_uch code);
 
 #endif

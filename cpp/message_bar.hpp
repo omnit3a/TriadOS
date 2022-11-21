@@ -5,4 +5,6 @@
 
 extern "C" void displayMessageBar();
 
+extern "C" void forceDisplayHeap();
+
 #endif
