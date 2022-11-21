@@ -4,6 +4,7 @@
 #include "print.hpp"
 #include "bootup.hpp"
 #include "kbd.hpp"
+#include "shell.hpp"
 
 extern "C" void hang(){
   while(TRUE){
@@ -45,7 +46,15 @@ extern "C" t_valid verifyLoad(){
     setAttrColor(FAILURE_COLORS);
     placeString(0,3,UNLOADED_UNIT_FAULT);
   #endif
-  
-  placeString(0,4,KERNEL_REACHED);
+
+  #ifdef SHELL_H_
+    setAttrColor(SUCCESS_COLORS);
+    placeString(0,4,SHELL_REACHED);
+  #else
+    setAttrColor(FAILURE_COLORS);
+    placeString(0,4,UNLOADED_UNIT_FAULT);
+  #endif
+
+  placeString(0,5,KERNEL_REACHED);
   return TRUE;
 }

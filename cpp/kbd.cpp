@@ -1,6 +1,8 @@
 #include "kbd.hpp"
 #include "memory.hpp"
 #include "print.hpp"
+#include "shell.hpp"
+#include "messages.hpp"
 
 t_uch kbdCursorX = 0;
 t_uch kbdCursorY = 0;
@@ -63,26 +65,41 @@ extern "C" t_uch getKeycode(){
 
 t_uch keyPrevious = getKeycode();
 
+extern "C" void clearCursor(){
+    setAttrColor(DEFAULT_COLORS);
+    placeScreenByte(kbdCursorX, kbdCursorY,' ');
+}
+
+extern "C" void resetCursor(){
+  clearCursor();
+  kbdCursorX = 0;
+  kbdCursorY = -1;
+}
+
 extern "C" void takeKeypress(t_uch code){
   if (keyPrevious != code){
   switch (code){
     case 30:
       if (kbdCursorY != 0){
+        clearCursor();
         kbdCursorY--;
       }
       break;
     case 31:
       if (kbdCursorY != SCREEN_HEIGHT-2){
+        clearCursor();
         kbdCursorY++;
       }
       break;
     case 17:
       if (kbdCursorX != 0){
+        clearCursor();
         kbdCursorX--;
       }
       break;
     case 16:
       if (kbdCursorX != SCREEN_WIDTH-1){
+        clearCursor();
         kbdCursorX++;
       }
       break;
@@ -91,17 +108,19 @@ extern "C" void takeKeypress(t_uch code){
     setAttrColor(DEFAULT_COLORS);
     placeScreenByte(kbdCursorX,kbdCursorY,code);
     kbdCursorX++;
-  }
-  if (code == 8 && kbdCursorX > 0){
-    setAttrColor(DEFAULT_COLORS);
-    placeScreenByte(kbdCursorX, kbdCursorY,' ');
+  } else if (code == 8 && kbdCursorX > 0){
+    clearCursor();
     kbdCursorX--;
-  }
-  if (code == 13 && kbdCursorY < SCREEN_HEIGHT-2){
-    setAttrColor(DEFAULT_COLORS);
-    placeScreenByte(kbdCursorX, kbdCursorY,' ');
-    kbdCursorX = 0;
+
+  //enter key
+  } else if (code == 13 && kbdCursorY < SCREEN_HEIGHT-2){
+    clearCursor();
+    executeCommand(readCommand(kbdCursorY));
     kbdCursorY++;
+    if (stringsEqual((t_ch*)readCommand(kbdCursorY), CLEAR_SCREEN)){
+      kbdCursorY--;
+    }
+    kbdCursorX = 0;
   }
   keyPrevious = code;
   placeCursor(kbdCursorX, kbdCursorY);

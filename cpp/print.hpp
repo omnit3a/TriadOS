@@ -20,6 +20,8 @@ extern "C" void setAttrColor(t_ush color);
 
 extern "C" void clearScreen();
 
+extern "C" void clearScreenNoBar();
+
 extern "C" void placeScreenByte(t_uch x, t_uch y, t_uch byte);
 
 extern "C" void placeString(t_uch x, t_uch y, String string);

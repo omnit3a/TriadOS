@@ -20,3 +20,10 @@ extern "C" void displayMessageBar(){
     placeString(0,SCREEN_HEIGHT-1,"HEAP:");
   }
 }
+
+extern "C" void forceDisplayHeap(){
+  setAttrColor(0xb100);
+  placeDecimal(5,SCREEN_HEIGHT-1,heapTest);
+  placeString(0,SCREEN_HEIGHT-1,"HEAP:");
+  setAttrColor(DEFAULT_COLORS);
+}
